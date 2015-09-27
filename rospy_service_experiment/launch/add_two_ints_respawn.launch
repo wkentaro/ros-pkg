@@ -1,0 +1,9 @@
+<launch>
+  <node name="add_two_ints_server"
+        pkg="rospy_service_experiment" type="add_two_ints_server.py"
+        respawn="true" output="screen"></node>
+
+  <node name="add_two_ints_client"
+        pkg="rospy_service_experiment" type="add_two_ints_client.py"
+        respawn="true" output="screen"></node>
+</launch>

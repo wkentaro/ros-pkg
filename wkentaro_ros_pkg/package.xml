@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+  <name>wkentaro_ros_pkg</name>
+  <version>0.0.1</version>
+  <description>
+   <p>Metapackage</p>
+  </description>
+
+  <maintainer email="www.kentaro.wada@gmail.com">Kentaro Wada</maintainer>
+  <author email="www.kentaro.wada@gmail.com">Kentaro Wada</author>
+
+  <license>BSD</license>
+  <url type="repository">https://github.com/wkentaro/ros-pkg</url>
+  <url type="bugtracker">https://github.com/wkentaro/ros-pkg/issues</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>rospy_service_experiment</run_depend>
+  <export>
+    <metapackage/>
+  </export>
+</package>
