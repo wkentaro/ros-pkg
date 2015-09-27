@@ -2,6 +2,7 @@
 rospy_service_experiment
 ========================
 
+
 Service call when server is killed
 ==================================
 
@@ -13,3 +14,5 @@ Service call when server is killed
 
     roslaunch rospy_service_experiment add_two_ints_respawn.launch
     rosnode kill /add_two_ints_server  # kill the server
+
+.. image:: ./images/server_respawn_and_client_recall.png
