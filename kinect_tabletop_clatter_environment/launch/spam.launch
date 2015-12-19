@@ -1,0 +1,62 @@
+<launch>
+
+  <arg name="INPUT_CLOUD" default="/camera/depth_registered/points" />
+
+  <arg name="fixed_frame" value="footprint" />
+
+  <arg name="MANAGER" value="spam_manager" />
+  <node name="$(arg MANAGER)"
+        pkg="nodelet" type="nodelet" args="manager" />
+
+  <node name="static_tf_publisher"
+        pkg="tf" type="static_transform_publisher"
+        args="0 0 1 0 0.53 0 footprint camera_link 100" />
+
+  <node name="passthrough_filter_z"
+        pkg="nodelet" type="nodelet"
+        args="load pcl/PassThrough $(arg MANAGER)">
+    <remap from="~input" to="$(arg INPUT_CLOUD)" />
+    <remap from="~output" to="~points" />
+    <param name="input_frame" value="$(arg fixed_frame)" />
+    <rosparam>
+      filter_field_name: x
+      filter_limit_min: 0
+      filter_limit_max: 0.9
+      keep_organized: true
+    </rosparam>
+  </node>
+
+  <node name="organized_multiplane_segmentation"
+        pkg="nodelet" type="nodelet"
+        args="load jsk_pcl/OrganizedMultiPlaneSegmentation $(arg MANAGER)">
+    <remap from="~input" to="passthrough_filter_z/points" />
+  </node>
+
+  <node name="cpi_decomposer"
+        pkg="nodelet" type="nodelet"
+        args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg MANAGER)">
+    <remap from="~input" to="passthrough_filter_z/points" />
+    <remap from="~target" to="organized_multiplane_segmentation/output" />
+  </node>
+
+  <node name="extract_indices"
+        pkg="nodelet" type="nodelet"
+        args="load jsk_pcl/ExtractIndices $(arg MANAGER)">
+    <remap from="~input" to="passthrough_filter_z/points" />
+    <remap from="~indices" to="cpi_decomposer/negative_indices" />
+  </node>
+
+  <node name="euclidean_clustering"
+        pkg="nodelet" type="nodelet"
+        args="standalone jsk_pcl/EuclideanClustering">
+    <remap from="~input" to="extract_indices/output" />
+  </node>
+
+  <node name="object_cpi_decomposer"
+        pkg="nodelet" type="nodelet"
+        args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg MANAGER)">
+    <remap from="~input" to="passthrough_filter_z/points" />
+    <remap from="~target" to="euclidean_clustering/output" />
+  </node>
+
+</launch>
