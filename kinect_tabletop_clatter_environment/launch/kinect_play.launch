@@ -4,6 +4,11 @@
 
   <param name="use_sim_time" value="true" />
 
+  <node name="rosbag_play"
+        pkg="rosbag" type="play"
+        args="$(arg BAGFILE) --loop --clock">
+  </node>
+
   <include file="$(find freenect_launch)/launch/freenect.launch">
     <arg name="depth_registration" value="true" />
     <arg name="load_driver" value="false" />
