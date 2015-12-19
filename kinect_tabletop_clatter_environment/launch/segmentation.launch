@@ -10,7 +10,7 @@
 
   <node name="static_tf_publisher"
         pkg="tf" type="static_transform_publisher"
-        args="0 0 1 0 0.53 0 footprint camera_link 100" />
+        args="0 0 1 0 0.53 0 footprint camera_link 1000" />
 
   <node name="passthrough_filter_z"
         pkg="nodelet" type="nodelet"
@@ -59,6 +59,9 @@
         args="load jsk_pcl/ExtractIndices $(arg MANAGER)">
     <remap from="~input" to="passthrough_filter_z/points" />
     <remap from="~indices" to="cpi_decomposer/negative_indices" />
+    <rosparam>
+      keep_organized: true
+    </rosparam>
   </node>
   <!--
   <node name="euclidean_clustering"
@@ -75,6 +78,9 @@
     <remap from="~indices" to="multiplane_segmentation/output_refined" />
     <remap from="~input_polygons" to="multiplane_segmentation/output_refined_polygon" />
     <remap from="~input_coefficients" to="multiplane_segmentation/output_refined_coefficients" />
+    <rosparam>
+      keep_organized: true
+    </rosparam>
   </node>
   <node pkg="nodelet" type="nodelet"
         name="cluster_decomposer_final"
@@ -89,6 +95,21 @@
       publish_clouds: false
       publish_tf: false
     </rosparam>
+  </node>
+
+  <node name="object_label_decomposer"
+        pkg="jsk_perception" type="label_image_decomposer.py">
+    <remap from="~input" to="/camera/rgb/image_color" />
+    <remap from="~input/label" to="cluster_decomposer_final/label" />
+    <rosparam>
+      approximate_sync: true
+      queue_size: 1000
+    </rosparam>
+  </node>
+  <node name="object_label_colorize"
+        pkg="nodelet" type="nodelet"
+        args="load jsk_perception/ColorizeLabels $(arg MANAGER)">
+    <remap from="~input" to="cluster_decomposer_final/label" />
   </node>
 
   <!--
