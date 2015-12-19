@@ -9,6 +9,7 @@
     <arg name="load_driver" value="false" />
   </include>
 
+  <!--
   <node name="decompress_rgb"
         pkg="image_transport" type="republish"
         args="compressed raw">
@@ -22,5 +23,6 @@
     <remap from="in" to="/camera/depth_registered/image_raw" />
     <remap from="out" to="/camera/depth_registered/image_raw" />
   </node>
+  -->
 
 </launch>
