@@ -3,8 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /BoundingBoxArray1
+      Expanded: ~
       Splitter Ratio: 0.5
     Tree Height: 374
   - Class: rviz/Selection
@@ -101,7 +100,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.01
       Style: Flat Squares
-      Topic: /camera/depth_registered/points
+      Topic: /cluster_decomposer_final/debug_output
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
@@ -196,15 +195,15 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.477629
-        Y: -0.153686
-        Z: 0.719195
+        X: 0.464525
+        Y: -0.0712417
+        Z: 0.740985
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.564797
+      Pitch: 0.279797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.0981
+      Yaw: 3.22811
     Saved: ~
 Window Geometry:
   Displays:

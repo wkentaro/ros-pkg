@@ -28,9 +28,11 @@
 
   <node name="multiplane_segmentation"
         pkg="nodelet" type="nodelet"
-        args="load jsk_pcl/OrganizedMultiPlaneSegmentation $(arg MANAGER)">
+        args="load jsk_pcl/OrganizedMultiPlaneSegmentation $(arg MANAGER)"
+        clear_params="true">
     <remap from="~input" to="passthrough_filter_z/points" />
     <rosparam>
+      angular_threshold: 0.01
       max_curvature: 0.01
       estimate_normal: true
       min_refined_area_threshold: 0.1
