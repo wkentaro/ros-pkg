@@ -26,37 +26,81 @@
     </rosparam>
   </node>
 
-  <node name="organized_multiplane_segmentation"
+  <node name="multiplane_segmentation"
         pkg="nodelet" type="nodelet"
         args="load jsk_pcl/OrganizedMultiPlaneSegmentation $(arg MANAGER)">
     <remap from="~input" to="passthrough_filter_z/points" />
+    <rosparam>
+      max_curvature: 0.01
+      estimate_normal: true
+      min_refined_area_threshold: 0.1
+    </rosparam>
+  </node>
+
+  <node pkg="nodelet" type="nodelet" name="euclidean_clustering"
+        args="load jsk_pcl/EuclideanClustering /$(arg MANAGER)" output="screen">
+    <remap from="~input" to="plane_extraction/output" />
+    <rosparam>
+      tolerance: 0.02
+      min_size: 1000
+    </rosparam>
   </node>
 
   <node name="cpi_decomposer"
         pkg="nodelet" type="nodelet"
         args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg MANAGER)">
     <remap from="~input" to="passthrough_filter_z/points" />
-    <remap from="~target" to="organized_multiplane_segmentation/output" />
+    <remap from="~target" to="multiplane_segmentation/output_refined" />
   </node>
-
   <node name="extract_indices"
         pkg="nodelet" type="nodelet"
         args="load jsk_pcl/ExtractIndices $(arg MANAGER)">
     <remap from="~input" to="passthrough_filter_z/points" />
     <remap from="~indices" to="cpi_decomposer/negative_indices" />
   </node>
-
+  <!--
   <node name="euclidean_clustering"
         pkg="nodelet" type="nodelet"
         args="standalone jsk_pcl/EuclideanClustering">
     <remap from="~input" to="extract_indices/output" />
   </node>
+  -->
 
+  <node name="plane_extraction"
+        pkg="nodelet" type="nodelet"
+        args="load jsk_pcl/MultiPlaneExtraction $(arg MANAGER)">
+    <remap from="~input" to="extract_indices/output" />
+    <remap from="~indices" to="multiplane_segmentation/output_refined" />
+    <remap from="~input_polygons" to="multiplane_segmentation/output_refined_polygon" />
+    <remap from="~input_coefficients" to="multiplane_segmentation/output_refined_coefficients" />
+  </node>
+  <node pkg="nodelet" type="nodelet"
+        name="cluster_decomposer_final"
+        args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg MANAGER)">
+    <remap from="~input" to="plane_extraction/output" />
+    <remap from="~target" to="euclidean_clustering/output" />
+    <remap from="~align_planes" to="multiplane_segmentation/output_refined_polygon" />
+    <remap from="~align_planes_coefficients" to="multiplane_segmentation/output_refined_coefficients" />
+    <rosparam>
+      align_boxes: true
+      use_pca: true
+      publish_clouds: false
+      publish_tf: false
+    </rosparam>
+  </node>
+
+  <!--
   <node name="object_cpi_decomposer"
         pkg="nodelet" type="nodelet"
         args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg MANAGER)">
-    <remap from="~input" to="passthrough_filter_z/points" />
+    <remap from="~input" to="extract_indices/output" />
     <remap from="~target" to="euclidean_clustering/output" />
+  </node>
+  -->
+
+  <node name="rviz"
+        pkg="rviz" type="rviz"
+        args="-d $(find kinect_tabletop_clatter_environment)/rvizconfig/default.rviz">
   </node>
 
 </launch>

@@ -1,0 +1,7 @@
+<launch>
+
+  <node name="kinect_record"
+        pkg="rosbag" type="record"
+        args="/tf /camera/rgb/camera_info /camera/rgb/image_raw /camera/depth_registered/camera_info /camera/depth_registered/image_raw --split --size=2000" />
+
+</launch>
