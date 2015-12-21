@@ -111,6 +111,11 @@
         args="load jsk_perception/ColorizeLabels $(arg MANAGER)">
     <remap from="~input" to="cluster_decomposer_final/label" />
   </node>
+  <node name="colorize_float_image"
+        pkg="nodelet" type="nodelet"
+        args="load jsk_perception/ColorizeFloatImage $(arg MANAGER)">
+    <remap from="~input" to="/camera/depth_registered/image_raw" />
+  </node>
 
   <!--
   <node name="object_cpi_decomposer"
