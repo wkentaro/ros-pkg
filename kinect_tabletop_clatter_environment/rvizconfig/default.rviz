@@ -6,7 +6,7 @@ Panels:
       Expanded:
         - /OverlayImage4
       Splitter Ratio: 0.5
-    Tree Height: 775
+    Tree Height: 359
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties

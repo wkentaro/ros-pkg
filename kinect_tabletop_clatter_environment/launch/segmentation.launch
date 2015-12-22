@@ -102,6 +102,7 @@
     <remap from="~input" to="/camera/rgb/image_color" />
     <remap from="~input/label" to="cluster_decomposer_final/label" />
     <rosparam>
+      publish_mask: true
       approximate_sync: true
       queue_size: 1000
     </rosparam>
