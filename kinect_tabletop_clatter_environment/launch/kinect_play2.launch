@@ -1,0 +1,7 @@
+<launch>
+
+  <include file="$(find kinect_tabletop_clatter_environment)/launch/kinect_play.launch">
+    <arg name="BAGFILE" value="$(find kinect_tabletop_clatter_environment)/bagfiles/2015-12-20-05-00-21_kinect-objects-on-plane.bag" />
+  </include>
+
+</launch>
