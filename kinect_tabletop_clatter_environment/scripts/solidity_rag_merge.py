@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import time
+
 import numpy as np
 from skimage.color import gray2rgb
 from skimage.color import label2rgb
@@ -57,19 +59,24 @@ def main():
     plt.axis('off')
     plt.imshow(depth_rgb)
 
+    t_start = time.time()
     roi = closed_mask_roi(depth)
     roi_labels = masked_slic(img=depth_rgb[roi], mask=depth[roi],
-                             n_segments=100, compactness=30)
+                             n_segments=20, compactness=30)
+    print('slic: takes {} [secs]'.format(time.time() - t_start))
 
     labels = np.zeros_like(depth)
     labels[roi] = roi_labels
+    print('n_labels: {}'.format(len(np.unique(labels))))
 
     out = label2rgb(labels, img, bg_label=0)
     plt.subplot(232)
     plt.axis('off')
     plt.imshow(out)
 
+    t_start = time.time()
     g = rag_solidity(labels, connectivity=2)
+    print('rag_solidity: takes {} [secs]'.format(time.time() - t_start))
 
     # draw rag: all
     out = graph.draw_rag(labels, g, img)
@@ -84,10 +91,12 @@ def main():
     plt.axis('off')
     plt.imshow(out)
 
+    t_start = time.time()
     merged_labels = graph.merge_hierarchical(
         labels, g, thresh=1, rag_copy=False,
         in_place_merge=True,
         merge_func=_solidity_merge_func, weight_func=_solidity_weight_func)
+    print('graph.merge_hierarchical: takes {} [secs]'.format(time.time() - t_start))
 
     out = label2rgb(merged_labels, img, bg_label=0)
     plt.subplot(235)
