@@ -123,6 +123,31 @@
     <remap from="~input" to="object_depth_label_decomposer/output" />
   </node>
 
+  <!-- solidity -->
+  <node name="solidity_rag_merge"
+        pkg="jsk_perception" type="solidity_rag_merge.py">
+    <remap from="~input" to="/camera/depth_registered/image_raw" />
+    <remap from="~input/mask" to="/cluster_decomposer_final/mask" />
+    <rosparam>
+      approximate_sync: true
+      debug: true
+    </rosparam>
+  </node>
+  <node name="solidity_colorize_slic"
+        pkg="nodelet" type="nodelet"
+        args="load jsk_perception/ColorizeLabels $(arg MANAGER)">
+    <remap from="~input" to="solidity_rag_merge/debug/slic" />
+  </node>
+  <node name="solidity_label_decomposer"
+        pkg="jsk_perception" type="label_image_decomposer.py">
+    <remap from="~input" to="/camera/rgb/image_color" />
+    <remap from="~input/label" to="solidity_rag_merge/output" />
+    <rosparam>
+      approximate_sync: true
+      queue_size: 1000
+    </rosparam>
+  </node>
+
   <!--
   <node name="object_cpi_decomposer"
         pkg="nodelet" type="nodelet"

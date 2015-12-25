@@ -3,8 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /OverlayImage4
+      Expanded: ~
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -205,6 +204,26 @@ Visualization Manager:
       left: 1200
       top: 0
       width: 400
+    - Class: jsk_rviz_plugin/OverlayImage
+      Enabled: true
+      Name: OverlayImage
+      Topic: /solidity_colorize_slic/output
+      Value: true
+      alpha: 0.8
+      height: -1
+      left: 0
+      top: 300
+      width: 400
+    - Class: jsk_rviz_plugin/OverlayImage
+      Enabled: true
+      Name: OverlayImage
+      Topic: /solidity_label_decomposer/output/label_viz
+      Value: true
+      alpha: 0.8
+      height: -1
+      left: 400
+      top: 300
+      width: 400
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -236,9 +255,9 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.585538
-        Y: -0.0961313
-        Z: 0.722996
+        X: 0.685037
+        Y: 0.392378
+        Z: 0.843494
       Name: Current View
       Near Clip Distance: 0.01
       Pitch: 0.309796
