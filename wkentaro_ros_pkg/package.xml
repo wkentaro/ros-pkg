@@ -16,6 +16,7 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <run_depend>rospy_service_experiment</run_depend>
+  <run_depend>kinect_tabletop_clatter_environment</run_depend>
   <export>
     <metapackage/>
   </export>
