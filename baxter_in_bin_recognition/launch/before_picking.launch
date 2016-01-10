@@ -1,0 +1,10 @@
+<launch>
+
+  <node name="rosbag_play"
+        pkg="rosbag" type="play"
+        args="$(find baxter_in_bin_recognition)/bagfiles/before_picking.bag --clock">
+  </node>
+
+  <include file="$(find jsk_2015_05_baxter_apc)/launch/setup.launch"></include>
+
+</launch>
