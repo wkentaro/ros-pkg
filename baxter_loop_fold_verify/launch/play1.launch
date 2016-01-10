@@ -1,0 +1,16 @@
+<launch>
+
+  <rosparam command="load" file="$(find baxter_loop_fold_verify)/config/rosparam.yaml" />
+
+  <node name="rosbag_play"
+        pkg="rosbag" type="play"
+        args="$(find baxter_loop_fold_verify)/bagfiles/kinect2_bridge_2016-01-09-19-42-42_0.bag --clock">
+  </node>
+
+  <include file="$(find jsk_data)/launch/kinect2_bridge_play.launch">
+    <arg name="ns" value="/kinect2_head/hd" />
+  </include>
+
+  <include file="$(find jsk_2015_05_baxter_apc)/launch/setup.launch"></include>
+
+</launch>
