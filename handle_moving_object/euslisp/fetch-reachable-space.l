@@ -2,6 +2,9 @@
 
 (load "package://fetcheus/fetch.l")
 
+(load "package://handle_moving_object/euslisp/handle_moving_object/reachable-space.l")
+
+
 (setq *fetch* (instance fetch-robot :init))
 (setq *robot* *fetch*)
 
@@ -14,7 +17,7 @@
 
 
 (defun load-main ()
-  (load "package://handle_moving_object/data/fetch-reachable-space.l")
+  (load "package://handle_moving_object/euslisp/data/fetch-reachable-space.l")
   (visualize-reachable-space reachable-space)
   )
 
