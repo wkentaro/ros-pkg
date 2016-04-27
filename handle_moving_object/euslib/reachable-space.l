@@ -1,6 +1,6 @@
 ;; vim: set ft=lisp:
 
-(load "package://handle_moving_object/euslisp/handle_moving_object/util.l")
+(load "package://handle_moving_object/euslib/util.l")
 
 
 (defun compute-reachable-space

@@ -1,8 +1,9 @@
+#!/usr/bin/env roseus
 ;; vim: set ft=lisp:
 
 (load "package://fetcheus/fetch.l")
 
-(load "package://handle_moving_object/euslisp/handle_moving_object/reachable-space.l")
+(load "package://handle_moving_object/euslib/reachable-space.l")
 
 
 (defun main ()
